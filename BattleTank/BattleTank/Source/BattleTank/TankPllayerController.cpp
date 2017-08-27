@@ -37,7 +37,7 @@ void ATankPllayerController::AimTowardCrosshair()
 	FVector OutHitLocation = FVector(2.0f);
 	if (GetSightRayHitLocation(OutHitLocation))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation :%s"), *OutHitLocation.ToString());
+		GetControlledTank()->AimAt(OutHitLocation);
 	}
 }
 
