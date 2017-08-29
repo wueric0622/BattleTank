@@ -4,6 +4,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
+#include "Tank.h"
 
 
 void ATankPllayerController::BeginPlay()
@@ -50,10 +51,19 @@ bool ATankPllayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	FVector LookLocation = FVector(1.0f);
 	if (GetLookDirection(ScreenLocation, LookLocation, LookDirection))
 	{
-		FVector HitLocation = FVector(1.0f);
-		GetlookVectorHitLocation(LookLocation, LookDirection, HitLocation);
+		if (GetlookVectorHitLocation(LookLocation, LookDirection, HitLocation))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-	return true;
+	else
+	{
+		return false;
+	}
 }
 
 bool ATankPllayerController::GetLookDirection(FVector2D ScreenLocation, FVector &LookLocation, FVector &LookDirection) const
@@ -68,7 +78,7 @@ bool ATankPllayerController::GetlookVectorHitLocation(FVector LookLocation, FVec
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, LookLocation, LineTraceEndPoint, ECC_Visibility))
 	{
 		HitLocation = HitResult.Location;
-		UE_LOG(LogTemp, Warning, TEXT("Line Trace Hit : %s"), *HitResult.Actor->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Line Trace Hit : %s"), *HitResult.Actor->GetName());
 		return true;
 	}
 	else
