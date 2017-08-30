@@ -30,7 +30,6 @@ void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
 void UTankAimingComponent::AimAt(FVector HitLocation,float LunchSpeed)
 {
 	if (!Barrel) { return; }
-	UE_LOG(LogTemp, Warning, TEXT("HitLocation : %s"), *HitLocation.ToString());
 	FVector OutLunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projecttile"));
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
