@@ -8,7 +8,10 @@ void UTankTrack::SetThrottle(float Trottle)
 	auto ForceApplied = GetForwardVector()  *Trottle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	AddForceAtLocation(ForceApplied, ForceLocation);
+	if (ensure(TankRoot))
+	{
+		TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+	}
 }
 
 

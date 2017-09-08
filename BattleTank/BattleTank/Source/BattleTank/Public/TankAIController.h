@@ -20,5 +20,5 @@ public:
 private:
 	void Tick(float DeltaTime) override;
 
-	float AcceptanceRadius = 100.0f;
+	float AcceptanceRadius = 3000;
 };

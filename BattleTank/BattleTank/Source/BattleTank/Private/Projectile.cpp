@@ -31,7 +31,7 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LunchProjectile(float LunnchSpeed)
 {
-	if (!ProjectileMovementComponent) { return; }
+	if (!ensure(ProjectileMovementComponent)) { return; }
 	UE_LOG(LogTemp, Warning, TEXT("Projectile fire"));
 	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector*LunnchSpeed);
 	ProjectileMovementComponent->Activate();

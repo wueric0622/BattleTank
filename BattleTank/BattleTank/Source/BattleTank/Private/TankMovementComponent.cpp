@@ -5,29 +5,33 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) { return; }
+	if (!ensure(LeftTrackToSet) || !ensure(RightTrackToSet)) { return; }
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s is moving in Velocity of %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	IntendMoveForward(FVector::DotProduct(TankForward, AIForwardIntention));
+	IntendTurn(FVector::CrossProduct(TankForward, AIForwardIntention).Z);
 }
 
 
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack) || !ensure(RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurn(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("%f : %f"), Throw,-Throw);
+	if (!ensure(LeftTrack) || !ensure(RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
-	RightTrack->SetThrottle(Throw*-1);
+	RightTrack->SetThrottle(-Throw);
 }
 
