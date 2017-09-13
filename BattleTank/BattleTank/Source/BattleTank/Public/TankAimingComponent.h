@@ -11,7 +11,8 @@ enum class EFiringStatus : uint8
 {
 	Locked,
 	Aiming,
-	Reloading
+	Reloading,
+	NoAmmo
 };
 
 class UTankBarrel;
@@ -24,22 +25,24 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	void AimAt(FVector HitLocation);
+
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-public:	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void Fire();
+	void AimAt(FVector HitLocation);
+	EFiringStatus GetFiringState() const;
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
 		UTankAimingComponent* TankAimingComponent = nullptr;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringStatus FiringStatus = EFiringStatus::Reloading;
-
+	UPROPERTY(BlueprintReadOnly, Category = "Fire")
+		int AmmoAmount = 10;
 private:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	bool IsBarrelMoving();
