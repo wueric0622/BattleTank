@@ -41,8 +41,8 @@ protected:
 		UTankAimingComponent* TankAimingComponent = nullptr;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringStatus FiringStatus = EFiringStatus::Reloading;
-	UPROPERTY(BlueprintReadOnly, Category = "Fire")
-		int AmmoAmount = 10;
+	UFUNCTION(BlueprintCallable, Category = "Fire")
+		int GetAmmoAmount() const;
 private:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 	bool IsBarrelMoving();
@@ -57,6 +57,8 @@ private:
 		float LunchSpeed = 4000;
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float ReloadTimeInSeconds = 3.f;
+	UPROPERTY(EditAnywhere, Category = Firing)
+		int AmmoAmount = 10;
 	double LastFireTime = 0;
 
 

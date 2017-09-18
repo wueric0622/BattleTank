@@ -11,24 +11,21 @@ AAutoMortar::AAutoMortar()
 
 }
 
-// Called when the game starts or when spawned
-void AAutoMortar::BeginPlay()
+float AAutoMortar::TakeDamage(float Damage, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
-	Super::BeginPlay();
-	
+	int32 DamagePoints = FPlatformMath::RoundToInt(Damage);
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0)
+	{
+		OnDeath.Broadcast();
+	}
+	return DamageToApply;
 }
 
-// Called every frame
-void AAutoMortar::Tick(float DeltaTime)
+float AAutoMortar::GetHealthPercent()
 {
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
-void AAutoMortar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	return (float)CurrentHealth / (float)MaxHealth;
 }
 

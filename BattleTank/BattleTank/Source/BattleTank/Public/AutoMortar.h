@@ -4,27 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Templates/Casts.h"
 #include "AutoMortar.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMortarDelegate);
 UCLASS()
 class BATTLETANK_API AAutoMortar : public APawn
 {
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintPure, Category = "Health")
+		float GetHealthPercent();
+	FMortarDelegate OnDeath;
+
+private:
 	// Sets default values for this pawn's properties
 	AAutoMortar();
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		int MaxHealth = 100;
+	UPROPERTY(VisibleAnywhere, Category = "Health")
+		int CurrentHealth = MaxHealth;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	
 	

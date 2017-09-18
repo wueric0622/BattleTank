@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "ParticleDefinitions.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -17,18 +19,30 @@ public:
 	AProjectile();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	UProjectileMovementComponent* ProjectileMovementComponent;
-
+	UProjectileMovementComponent* ProjectileMovementComponent;	
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	virtual void BeginPlay() override;
 	void LunchProjectile(float LunnchSpeed);
-	
-	
 
-	
-	
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UStaticMeshComponent* CollisionMesh;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UParticleSystemComponent* LaunchBlast;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UParticleSystemComponent* ImpactBlast;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		URadialForceComponent* ExplosionForce;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float DelayTime = 5.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float ProjectileDamage;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float DamageRadius;
+
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnTimerExpire();
+			
 };

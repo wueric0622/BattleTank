@@ -43,7 +43,7 @@ void UTankTrack::DriveTrack()
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s  ::  %s"), *GetName(),*ForceLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Name: %s  ::  %s"), *GetName(),*ForceLocation.ToString());
 	//UE_LOG(LogTemp, Warning, TEXT("Name: %s  ::   %s,%s"), *GetName(),*ForceApplied.ToString(), *ForceLocation.ToString());
 }
 

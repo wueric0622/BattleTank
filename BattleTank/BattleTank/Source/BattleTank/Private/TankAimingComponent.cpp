@@ -26,6 +26,7 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 	Turret = TurretToSet;
 }
 
+
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds && AmmoAmount > 0)
@@ -47,6 +48,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 }
 
 EFiringStatus UTankAimingComponent::GetFiringState() const { return FiringStatus; }
+int UTankAimingComponent::GetAmmoAmount() const { return AmmoAmount; }
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
@@ -107,7 +109,7 @@ void UTankAimingComponent::TurnTurretTowards(FVector AimDirection)
 void UTankAimingComponent::Fire()
 {
 	if (!ensure(Barrel)) { return; }
-	if (FiringStatus != EFiringStatus::Reloading || FiringStatus != EFiringStatus::NoAmmo)
+	if (FiringStatus == EFiringStatus::Locked || FiringStatus == EFiringStatus::Aiming)
 	{
 		FVector SpawnLocation = Barrel->GetSocketLocation(FName("Projecttile"));
 		FRotator SpawnRotaion = Barrel->GetSocketRotation(FName("Projecttile"));

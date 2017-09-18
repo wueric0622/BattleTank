@@ -19,9 +19,12 @@ class BATTLETANK_API ATankPllayerController : public APlayerController
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = Setup)
 		void FoundAimingComponent(UTankAimingComponent*AimCompRef);
+	UFUNCTION()
+		void OnProssedTankDeath();
 private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn * InPawn) override;
 
 	UPROPERTY(EditAnywhere)
 		float CrossHairXLocation = 0.5f;
